@@ -274,7 +274,7 @@ chọn tất cả thẻ li là
     với chính chiều cao của thanh #header là xong.
     */
     padding-top: 50%;
-    background: url(assets/img/header/chicago.jpg) top center / cover no-repeat;
+    background: url(./chicago.jpg) top center / cover no-repeat;
 }
 
 #slider .text-content {
