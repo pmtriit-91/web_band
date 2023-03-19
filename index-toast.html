@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/project/w3-bank/assets/css/style-BEM.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <title>Toast</title>
+</head>
+
+<body>
+    <div id="toast">
+
+    </div>
+
+    <div>
+        <div onclick="showSuccessToast();" class="btn btn--success">Show success toast</div>
+        <div onclick="showErrorToast();" class="btn btn--danger">Show danger toast</div>
+    </div>
+
+    <script>
+        //Toast function
+        function toast({
+            title = '',
+            message = '',
+            type = 'info',
+            duration = 3000
+        }) {
+            var main = document.getElementById('toast');
+            if (main) {
+                var toast = document.createElement('div');
+
+                //auto remove toast massage
+                var autoRemoveId = setTimeout(function() {
+                    main.removeChild(toast);
+                }, duration + 1000);
+
+                //remove toast when click
+                toast.onclick = function(e) {
+                    if (e.target.closest('.toast__close')) {
+                        main.removeChild(toast);
+                        clearTimeout(autoRemoveId);
+                    }
+                };
+
+                var icons = {
+                    success: 'fa-solid fa-circle-check',
+                    info: 'fa-solid fa-circle-info',
+                    warning: 'fa-sharp fa-solid fa-circle-exclamation',
+                    error: 'fa-sharp fa-solid fa-circle-exclamation'
+                }
+                var icon = icons[type];
+                var delay = (duration / 1000).toFixed(2);
+
+                toast.classList.add('toast', `toast--${type}`);
+                toast.style.animation = `slineInLeft ease 1s, faceOut linear 1s ${delay}s forwards`;
+                toast.innerHTML = `
+                    <div class="toast__icon">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="toast__body">
+                        <h3 class="toast__title">${title}</h3>
+                        <p class="toast__msg">${message}</p>
+                    </div>
+                        <div class="toast__close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                `;
+                main.appendChild(toast);
+            }
+        }
+
+        function showSuccessToast() {
+            toast({
+                title: 'Thành công.',
+                message: 'bạn đã đăng kí thành công tài khoản tại PmTCode',
+                type: 'success',
+                duration: 5000
+            });
+        }
+
+        function showErrorToast() {
+            toast({
+                title: 'Thất bại',
+                message: 'có lỗi xãy ra vui lòng liên hệ quản trị viên',
+                type: 'error',
+                duration: 5000
+            });
+        }
+    </script>
+</body>
+
+</html>
